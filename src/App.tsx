@@ -47,8 +47,7 @@ function App() {
   const generateConnectivityData = () => {
     let ret = [];
     for (let n = 2; n <= 100; n++) {
-      const p = lnOverNFunction(n);
-      const graph = generateGraphErdosRenyi(n, p, (g) => checkConnected(g));
+      const graph = generateGraphErdosRenyi(n, connectedGraphProbability, (g) => checkConnected(g));
       ret.push([n, graph.getEdgeCount()]);
     }
     setConnectedGraphData(ret);
