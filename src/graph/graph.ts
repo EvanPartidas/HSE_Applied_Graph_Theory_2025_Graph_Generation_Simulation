@@ -40,4 +40,12 @@ export class Graph {
       .map((edgeId) => this.nodes.get(edgeId)!)
       .filter((n) => n);
   }
+
+  getEdgeCount(): number {
+    let count = 0;
+    for (const node of this.nodes.values()) {
+      count += node.edges.size;
+    }
+    return count / 2; // Each edge is counted twice
+  }
 }

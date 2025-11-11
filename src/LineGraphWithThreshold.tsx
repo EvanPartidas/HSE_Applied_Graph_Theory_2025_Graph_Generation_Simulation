@@ -4,14 +4,17 @@ import {
   ChartsReferenceLine,
   ChartsXAxis,
   ChartsYAxis,
-  LinePlot,
+  ScatterPlot,
 } from "@mui/x-charts";
 
 export type LineGraphProps = {
   xAxis: { data: number[]; label: string }[];
-  series: { data: number[]; label: string; type: "line" }[];
-  thresholdXPos: number;
-  thresholdLabel: string;
+  // allow any series shape (delegate to chart lib types at runtime)
+  series: any[];
+  thresholdXPos?: number;
+  thresholdLabel?: string;
+  max?: number;
+  min?: number;
 };
 
 export default function LineGraphWithThreshold({
@@ -19,22 +22,27 @@ export default function LineGraphWithThreshold({
   series,
   thresholdXPos,
   thresholdLabel,
+  min,
+  max,
 }: LineGraphProps) {
   return (
     <ChartContainer
       xAxis={xAxis}
       series={series}
+      yAxis={[{ min, max }]}
       height={300}
       margin={{ left: 50, right: 50, top: 30, bottom: 30 }}
     >
-      <LinePlot />
-      <ChartsReferenceLine
-        x={thresholdXPos} // number | Date | string — vertical line
-        label={thresholdLabel}
-        labelAlign="start"
-        lineStyle={{ stroke: "red", strokeWidth: 2, strokeDasharray: "4 4" }}
-        labelStyle={{ fontSize: 20, fill: "red" }}
-      />
+      <ScatterPlot />
+      {thresholdXPos && (
+        <ChartsReferenceLine
+          x={thresholdXPos} // number | Date | string — vertical line
+          label={thresholdLabel}
+          labelAlign="start"
+          lineStyle={{ stroke: "red", strokeWidth: 2, strokeDasharray: "4 4" }}
+          labelStyle={{ fill: "red", fontSize: 20 }}
+        />
+      )}
       <ChartsXAxis />
       <ChartsYAxis />
     </ChartContainer>
